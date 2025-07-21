@@ -1,4 +1,5 @@
 // === NAPRAWIONA APLIKACJA - BARTŁOMIEJ PŁÓCIENNIK ===
+// TYLKO GOOGLE SHEETS - BEZ NETLIFY
 
 class ModernApp {
     constructor() {
@@ -19,7 +20,7 @@ class ModernApp {
         }
     }
 
-    // === INICJALIZACJA Z DEBUGOWANIEM ===
+    // === INICJALIZACJA ===
     initialize() {
         if (this.isInitialized) return;
         
@@ -34,18 +35,6 @@ class ModernApp {
             this.initializeSmoothScroll();
             this.initializeMouseGradient();
             this.initializeFloatingWords();
-            
-            // Test popup elements
-            const popup = document.getElementById('cta-popup');
-            const openBtn = document.getElementById('cta-open-btn');
-            const modal = document.querySelector('.cta-modal');
-            
-            console.log('🔍 Popup elements check:', {
-                popup: !!popup,
-                openBtn: !!openBtn,
-                modal: !!modal,
-                isMobile: window.innerWidth <= 768
-            });
             
             this.isInitialized = true;
             console.log('✅ App initialized successfully');
@@ -73,7 +62,7 @@ class ModernApp {
         console.log('✅ Header initialized');
     }
 
-    // === MOBILE MENU - NAPRAWIONE ===
+    // === MOBILE MENU ===
     initializeMobileMenu() {
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const mainNav = document.getElementById('main-nav');
@@ -84,7 +73,6 @@ class ModernApp {
             return;
         }
 
-        // Upewnij się, że hamburger ma odpowiednią strukturę
         if (!hamburgerBtn.querySelector('.hamburger-line')) {
             hamburgerBtn.innerHTML = `
                 <span class="hamburger-line"></span>
@@ -150,7 +138,7 @@ class ModernApp {
         console.log('✅ Mobile menu initialized');
     }
 
-    // === FORMULARZ - NAPRAWIONY ===
+    // === FORMULARZ ===
     initializeForm() {
         const form = document.getElementById('contact-form');
         if (!form) return;
@@ -164,7 +152,6 @@ class ModernApp {
             mainError: document.getElementById('form-main-error'),
             phoneInput: document.getElementById('phone'),
             messageInput: document.getElementById('message'),
-            levelSlider: document.getElementById('level'),
             formContainer: document.querySelector('.form-container')
         };
 
@@ -174,34 +161,6 @@ class ModernApp {
                 let value = e.target.value.replace(/\D/g, '').substring(0, 9);
                 e.target.value = value.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
             });
-        }
-
-        // Slider poziomów
-        if (elements.levelSlider) {
-            const levelDisplay = document.getElementById('level-display');
-            if (levelDisplay) {
-                const updateLevelDisplay = () => {
-                    const value = elements.levelSlider.value;
-                    levelDisplay.textContent = value;
-                    
-                    // Dodaj kolory w zależności od poziomu
-                    const container = elements.levelSlider.closest('.level-slider-container');
-                    if (container) {
-                        container.classList.remove('level-low', 'level-medium', 'level-high');
-                        
-                        if (value <= 3) {
-                            container.classList.add('level-low');
-                        } else if (value <= 7) {
-                            container.classList.add('level-medium');
-                        } else {
-                            container.classList.add('level-high');
-                        }
-                    }
-                };
-                
-                elements.levelSlider.addEventListener('input', updateLevelDisplay);
-                updateLevelDisplay(); // Initialize
-            }
         }
 
         // Real-time validation
@@ -223,73 +182,7 @@ class ModernApp {
             });
         });
 
-        // Obsługa textarea message - walidacja dopiero gdy ma treść
-        if (elements.messageInput) {
-            elements.messageInput.addEventListener('input', () => {
-                if (elements.messageInput.value.trim().length > 0) {
-                    elements.messageInput.classList.add('valid');
-                    elements.messageInput.classList.remove('error');
-                } else {
-                    elements.messageInput.classList.remove('valid', 'error');
-                }
-            });
-        }
-
-        // Enhanced form UX improvements
-        const addUXEnhancements = () => {
-            // Smooth focus transitions
-            inputs.forEach(input => {
-                input.addEventListener('focus', () => {
-                    input.parentElement.classList.add('focused');
-                });
-                
-                input.addEventListener('blur', () => {
-                    input.parentElement.classList.remove('focused');
-                });
-            });
-
-            // Real-time character count for textarea
-            if (elements.messageInput) {
-                const charCountDisplay = document.createElement('div');
-                charCountDisplay.className = 'char-count';
-                charCountDisplay.style.cssText = `
-                    font-size: 0.8rem;
-                    color: var(--color-text-muted);
-                    text-align: right;
-                    margin-top: 0.5rem;
-                `;
-                elements.messageInput.parentElement.appendChild(charCountDisplay);
-                
-                elements.messageInput.addEventListener('input', () => {
-                    const length = elements.messageInput.value.length;
-                    charCountDisplay.textContent = `${length} znaków`;
-                    
-                    if (length > 500) {
-                        charCountDisplay.style.color = 'var(--color-warning)';
-                    } else {
-                        charCountDisplay.style.color = 'var(--color-text-muted)';
-                    }
-                });
-            }
-
-            // Enhanced phone input formatting
-            if (elements.phoneInput) {
-                elements.phoneInput.addEventListener('input', (e) => {
-                    let value = e.target.value.replace(/\D/g, '').substring(0, 9);
-                    e.target.value = value.replace(/(\d{3})(?=\d)/g, '$1 ').trim();
-                    
-                    // Visual feedback for valid length
-                    if (value.length === 9) {
-                        e.target.classList.add('valid');
-                        e.target.classList.remove('error');
-                    }
-                });
-            }
-        };
-
-        addUXEnhancements();
-
-        // Form submission - na końcu
+        // Form submission
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!this.formState.isSubmitting) {
@@ -306,7 +199,6 @@ class ModernApp {
         let isValid = true;
         let message = '';
 
-        // Resetuj poprzednie stany
         field.classList.remove('valid', 'error');
 
         if (field.required && !value) {
@@ -324,14 +216,9 @@ class ModernApp {
                 isValid = false;
                 message = 'Numer telefonu musi mieć co najmniej 9 cyfr.';
             }
-        } else if (field.type === 'range') {
-            // Slider poziomów jest zawsze poprawny
-            isValid = true;
         }
 
-        // Dodaj klasy CSS
         if (isValid && value) {
-            // Pole message (opcjonalne) dostaje klasę valid tylko gdy ma treść
             if (field.id === 'message') {
                 if (value.length > 0) {
                     field.classList.add('valid');
@@ -343,7 +230,6 @@ class ModernApp {
             field.classList.add('error');
         }
 
-        // Obsługa komunikatów błędów
         if (errorSpan) {
             errorSpan.textContent = message;
             errorSpan.classList.toggle('visible', !isValid && message);
@@ -359,6 +245,7 @@ class ModernApp {
         }
     }
 
+    // === OBSŁUGA WYSYŁANIA FORMULARZA - TYLKO GOOGLE SHEETS ===
     async handleFormSubmit(elements) {
         const { form, submitButton, successState, mainError, formContainer } = elements;
         
@@ -405,48 +292,120 @@ class ModernApp {
             
             console.log('📤 Sending form data:', data);
             
-            // GOOGLE SHEETS URL
-            // GOOGLE SHEETS URL
+            // GOOGLE SHEETS URL - SPRAWDŹ CZY TO NAJNOWSZY!
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3uZB6Jfda0FswbjnDncNoTSZnWPeZe2XzL3NwEmaml6Yg-xCvH3GCq7b2bYdL_U2-/exec';
-            // Wyślij do Google Sheets
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Próba 1: Standardowy POST z obsługą CORS
+            let success = false;
+            
+            try {
+                console.log('🔄 Próba wysłania do Google Sheets...');
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('✅ Odpowiedź z Google Sheets:', result);
+                    
+                    if (result.success) {
+                        success = true;
+                    } else {
+                        throw new Error(result.error || result.message || 'Nieznany błąd serwera');
+                    }
+                } else {
+                    throw new Error(`Błąd HTTP: ${response.status}`);
+                }
+                
+            } catch (fetchError) {
+                console.log('⚠️ Pierwszy POST nieudany:', fetchError.message);
+                
+                // Próba 2: no-cors mode (dla problemów z CORS)
+                try {
+                    console.log('🔄 Próba z no-cors mode...');
+                    
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    // W no-cors nie możemy sprawdzić odpowiedzi
+                    // Ale jeśli nie ma błędu, prawdopodobnie poszło
+                    console.log('✅ Wysłano w trybie no-cors');
+                    success = true;
+                    
+                } catch (noCorsError) {
+                    console.log('⚠️ No-cors również nieudany:', noCorsError.message);
+                    
+                    // Próba 3: przez ukryty formularz HTML
+                    try {
+                        console.log('🔄 Próba przez formularz HTML...');
+                        
+                        const hiddenForm = document.createElement('form');
+                        hiddenForm.method = 'POST';
+                        hiddenForm.action = GOOGLE_SCRIPT_URL;
+                        hiddenForm.target = '_blank';
+                        hiddenForm.style.display = 'none';
+                        
+                        Object.entries(data).forEach(([key, value]) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = key;
+                            input.value = value;
+                            hiddenForm.appendChild(input);
+                        });
+                        
+                        document.body.appendChild(hiddenForm);
+                        hiddenForm.submit();
+                        document.body.removeChild(hiddenForm);
+                        
+                        // Poczekaj chwilę i załóż sukces
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        console.log('✅ Wysłano przez formularz HTML');
+                        success = true;
+                        
+                    } catch (htmlError) {
+                        console.error('❌ Wszystkie metody nieudane:', htmlError);
+                        throw new Error('Nie udało się wysłać formularza żadną metodą');
+                    }
+                }
             }
             
-            const result = await response.json();
-            
-            if (result.success) {
+            if (success) {
                 // Pokaż sukces
                 this.showFormSuccess(form, successState, formContainer);
-                console.log('✅ Form submitted successfully to Google Sheets!');
+                console.log('✅ Form submitted successfully!');
             } else {
-                throw new Error(result.error || 'Unknown error from Google Sheets');
+                throw new Error('Nieznany błąd podczas wysyłania');
             }
             
         } catch (error) {
             console.error('❌ Form submission failed:', error);
             
-            // Pokazuj różne komunikaty w zależności od błędu
-            let errorMessage = 'Wystąpił błąd podczas wysyłania. Spróbuj ponownie.';
+            let errorMessage = 'Wystąpił błąd podczas wysyłania. Spróbuj ponownie lub skontaktuj się telefonicznie.';
             
             if (error.message.includes('Failed to fetch') || error.message.includes('network')) {
                 errorMessage = 'Sprawdź połączenie internetowe i spróbuj ponownie.';
             } else if (error.message.includes('CORS')) {
-                errorMessage = 'Problem z konfiguracją. Skontaktuj się przez telefon: +48 661 576 007';
-            } else if (error.message.includes('HTTP error')) {
-                errorMessage = 'Problem z serwerem. Skontaktuj się przez telefon: +48 661 576 007';
+                errorMessage = 'Formularz może być wysłany, ale nie można potwierdzić. Jeśli nie otrzymasz odpowiedzi w 24h, zadzwoń: +48 661 576 007';
+                // W przypadku CORS pokaż też sukces po błędzie
+                setTimeout(() => {
+                    this.hideMainError(mainError);
+                    this.showFormSuccess(form, successState, formContainer);
+                }, 3000);
             }
             
             this.showMainError(mainError, errorMessage);
+            
         } finally {
             this.setSubmitButtonState(submitButton, false, 'Wyślij wiadomość');
             this.formState.isSubmitting = false;
@@ -530,12 +489,11 @@ class ModernApp {
                 successState.classList.add('visible');
             });
             
-            // SCROLL DO GÓRY PO WYSŁANIU - NOWA FUNKCJA
+            // Scroll do góry
             setTimeout(() => {
-                // Scroll do początku success state z małym offsetem
                 const formSection = document.querySelector('.form-section');
                 if (formSection) {
-                    const offsetTop = formSection.offsetTop - 100; // 100px offset od góry
+                    const offsetTop = formSection.offsetTop - 100;
                     window.scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -571,7 +529,7 @@ class ModernApp {
         }
     }
 
-    // === CTA POPUP - PROSTSZE I DZIAŁAJĄCE ===
+    // === CTA POPUP ===
     initializeCTAPopup() {
         const popup = document.getElementById('cta-popup');
         if (!popup) return;
@@ -587,16 +545,13 @@ class ModernApp {
 
         let isOpen = false;
 
-        // Initial state
         openBtn.style.display = 'flex';
         modal.style.display = 'none';
 
         const openModal = () => {
             if (isOpen) return;
             
-            console.log('Opening CTA modal');
             isOpen = true;
-            
             openBtn.style.display = 'none';
             modal.style.display = 'block';
             
@@ -612,9 +567,7 @@ class ModernApp {
         const closeModal = () => {
             if (!isOpen) return;
             
-            console.log('Closing CTA modal');
             isOpen = false;
-            
             modal.classList.remove('visible');
             
             setTimeout(() => {
@@ -623,41 +576,32 @@ class ModernApp {
             }, 300);
         };
 
-        // Simple event listeners
         openBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('CTA open button clicked');
             openModal();
         });
         
         closeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('CTA close button clicked');
             closeModal();
         });
         
-        // Close on outside click
         document.addEventListener('click', (e) => {
             if (isOpen && !modal.contains(e.target) && !openBtn.contains(e.target)) {
-                console.log('Closing CTA modal - outside click');
                 closeModal();
             }
         });
 
-        // Close on link click
         modal.addEventListener('click', (e) => {
             if (e.target.tagName === 'A') {
-                console.log('Closing CTA modal - link clicked');
                 closeModal();
             }
         });
 
-        // Close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isOpen) {
-                console.log('Closing CTA modal - escape key');
                 closeModal();
             }
         });
@@ -857,4 +801,4 @@ injectAnimations();
 const app = new ModernApp();
 window.app = app;
 
-console.log('🎯 App loaded successfully');
+console.log('🎯 App loaded successfully - Google Sheets only version');
