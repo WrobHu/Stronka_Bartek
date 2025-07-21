@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Bartłomiej Płóciennik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mouse-gradient-background"></div>
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html" class="logo-bp-link"><div class="logo-bp">BP</div></a>
+            <div class="header-quote">
+                "Posiadać drugi język, to jak posiadać drugą duszę." – Karol Wielki
+            </div>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="o-mnie.html">O Mnie</a></li>
+                <li><a href="oferta.html">Oferta</a></li>
+                <li><a href="cennik.html">Cennik</a></li>
+                <li><a href="kontakt.html" class="active">Kontakt</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger-menu" id="hamburger-btn" aria-label="Otwórz menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <main>
+        <section class="page-title-section">
+            <h1 class="animated-headline">Zróbmy pierwszy krok</h1>
+            <p class="reveal-element">Wypełnij formularz, aby umówić się na bezpłatną, 30-minutową konsultację. Sprawdzimy Twój poziom i omówimy cele.</p>
+        </section>
+
+        <section class="content-section form-section">
+            <div class="form-container reveal-element">
+                <form id="contact-form" class="contact-form" method="POST" netlify>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fname" class="required">Imię</label>
+                            <input type="text" id="fname" name="fname" required placeholder="Twoje imię">
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lname" class="required">Nazwisko</label>
+                            <input type="text" id="lname" name="lname" required placeholder="Twoje nazwisko">
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="required">Adres e-mail</label>
+                        <input type="email" id="email" name="email" required placeholder="twoj@email.com">
+                        <span class="error-message"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Numer telefonu</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="123 456 789">
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="level" class="required">Twój obecny poziom językowy</label>
+                        <select id="level" name="level" required>
+                            <option value="">Wybierz poziom</option>
+                            <option value="A1">A1 - Początkujący</option>
+                            <option value="A2">A2 - Podstawowy</option>
+                            <option value="B1">B1 - Średnio-zaawansowany</option>
+                            <option value="B2">B2 - Wyższy średnio-zaawansowany</option>
+                            <option value="C1">C1 - Zaawansowany</option>
+                            <option value="C2">C2 - Poziom biegły</option>
+                            <option value="brak">Brak znajomości</option>
+                        </select>
+                        <span class="error-message"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Twoja wiadomość (opcjonalnie)</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Powiedz mi więcej o swoich celach językowych, doświadczeniu lub pytaniach..."></textarea>
+                    </div>
+                    
+                    <div id="form-main-error" class="main-error"></div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">Wyślij wiadomość</span>
+                    </button>
+                </form>
+                
+                <div id="form-success-state" class="form-success-state" style="display: none;">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17L4 12"/>
+                        </svg>
+                    </div>
+                    <h2>🎉 Dziękuję!</h2>
+                    <p>Wiadomość została wysłana. Odpowiem najszybciej, jak to możliwe - zwykle w ciągu 24 godzin.</p>
+                    <p><strong>Następne kroki:</strong> Skontaktuję się z Tobą, aby umówić bezpłatną konsultację w dogodnym terminie.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-subtitle reveal-element">Inne sposoby kontaktu</h2>
+            <div class="features-grid">
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </div>
+                    <h3>📧 E-mail</h3>
+                    <p>Napisz do mnie bezpośrednio:</p>
+                    <a href="mailto:bar.plociennik@gmail.com" class="btn-secondary">bar.plociennik@gmail.com</a>
+                </div>
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                    </div>
+                    <h3>📞 Telefon</h3>
+                    <p>Zadzwoń w pilnych sprawach:</p>
+                    <a href="tel:+48661576007" class="btn-secondary">+48 661 576 007</a>
+                </div>
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zM12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                    </div>
+                    <h3>⏰ Czas odpowiedzi</h3>
+                    <p>Odpowiadam zwykle w ciągu 24 godzin.</p>
+                    <p><strong>Dostępność:</strong><br>Pon-Pt: 9:00-20:00<br>Sob: 10:00-16:00</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column about">
+                    <div class="logo-bp">BP</div>
+                    <p>Pomagam przełamać bariery językowe i odkryć radość z płynnej komunikacji.</p>
+                </div>
+                <div class="footer-column links">
+                    <h4>Nawigacja</h4>
+                    <ul>
+                        <li><a href="index.html">Start</a></li>
+                        <li><a href="o-mnie.html">O Mnie</a></li>
+                        <li><a href="oferta.html">Oferta</a></li>
+                        <li><a href="cennik.html">Cennik</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column contact">
+                    <h4>Kontakt</h4>
+                    <p>
+                        <strong>E-mail:</strong><br>
+                        <a href="mailto:bar.plociennik@gmail.com">bar.plociennik@gmail.com</a>
+                    </p>
+                    <p>
+                        <strong>Telefon:</strong><br>
+                        <a href="tel:+48661576007">+48 661 576 007</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Bartłomiej Płóciennik. Wszystkie prawa zastrzeżone.</p>
+                <div class="author-credit">
+                    <span>Stworzone przez</span>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="author-name">Wroblewski</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cta-popup" class="cta-popup">
+        <div class="cta-modal">
+            <button id="cta-close-btn" class="cta-close-btn">&times;</button>
+            <h3>Szybki Kontakt</h3>
+            <p>Porozmawiajmy o Twoich celach językowych.</p>
+            <a href="tel:+48661576007" class="cta-link">Zadzwoń: +48 661 576 007</a>
+            <a href="mailto:bar.plociennik@gmail.com" class="cta-link">Napisz e-mail</a>
+            <a href="kontakt.html" class="cta-main-link">Przejdź do formularza</a>
+        </div>
+        <button id="cta-open-btn" class="cta-open-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>O mnie - Bartłomiej Płóciennik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mouse-gradient-background"></div>
+    <header class="main-header">
+        <div class="logo-container">
+            <a href="index.html" class="logo-bp-link"><div class="logo-bp">BP</div></a>
+            <div class="header-quote">
+                "Granice mojego języka wyznaczają granice mojego świata." – Ludwig Wittgenstein
+            </div>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="index.html">Start</a></li>
+                <li><a href="o-mnie.html" class="active">O mnie</a></li>
+                <li><a href="oferta.html">Oferta</a></li>
+                <li><a href="cennik.html">Cennik</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger-menu" id="hamburger-btn" aria-label="Otwórz menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <main>
+        <section class="page-title-section">
+            <h1 class="animated-headline">Kim jestem?</h1>
+            <p class="reveal-element">Poznaj osobę, która pomoże Ci odkryć radość z nauki języków.</p>
+        </section>
+
+        <section class="content-section about-me-layout">
+            <div class="about-me-text">
+                <h2 class="section-title-small reveal-element">Cześć, jestem Bartłomiej Płóciennik.</h2>
+                <p class="reveal-element"><strong>Pasjonat języków obcych oraz wykorzystywania ich znajomości w praktyce.</strong></p>
+                <p class="reveal-element">Jestem lektorem z ponad 5-letnim doświadczeniem w nauczaniu uczniów na większości poziomów zaawansowania oraz wszystkich grup wiekowych.</p>
+                <p class="reveal-element">Ukończyłem filologię francuską na Uniwersytecie im. Adama Mickiewicza w Poznaniu, posiadam certyfikat CAE potwierdzający moją znajomość języka angielskiego, a od 2019 roku zajmuję się zawodowo nauczaniem języków obcych. Poza prowadzeniem regularnych zajęć z osobami dorosłymi czy korepetycji z uczniami szkół, z sukcesem przygotowuję moich uczniów do egzaminu ósmoklasisty oraz matury (na obu poziomach zaawansowania) z języka angielskiego.</p>
+                
+                <div class="qualifications reveal-element">
+                    <h3>Moje kwalifikacje:</h3>
+                    <ul>
+                        <li>✓ Magister filologii francuskiej (UAM Poznań)</li>
+                        <li>✓ Certyfikat CAE (C1 Advanced)</li>
+                        <li>✓ Ponad 5 lat doświadczenia w nauczaniu</li>
+                        <li>✓ Specjalizacja w przygotowaniu do egzaminów</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="about-me-image-wrapper reveal-element">
+                <!-- TWOJE ZDJĘCIE PROFILOWE -->
+                <picture class="profile-picture">
+                    <!-- WebP format (już masz) -->
+                    <source srcset="DSC_4285CV.webp" type="image/webp">
+                    
+                    <!-- Fallback JPEG (jeśli chcesz dodać dla starszych przeglądarek) -->
+                    <img 
+                        src="DSC_4285CV.jpg" 
+                        alt="Bartłomiej Płóciennik - nauczyciel języków angielskiego i francuskiego" 
+                        loading="lazy"
+                        class="profile-image"
+                        width="400"
+                        height="500"
+                    >
+                </picture>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-subtitle reveal-element">Moja filozofia nauczania</h2>
+            <div class="features-grid">
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Jakość nad ilością</h3>
+                    <p>Lepiej opanować mniej materiału, ale na pewno, niż przerabiać wszystko powierzchownie.</p>
+                </div>
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                        </svg>
+                    </div>
+                    <h3>Postęp krok po kroku</h3>
+                    <p>Każda lekcja to solidny fundament pod następną. Buduję pewność siebie systematycznie.</p>
+                </div>
+                <div class="feature-item reveal-element">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 6L12 10.5 8.5 8 12 5.5 15.5 8zM8.5 16L12 13.5 15.5 16 12 18.5 8.5 16z"/>
+                        </svg>
+                    </div>
+                    <h3>Nauka przez praktykę</h3>
+                    <p>Teoria to podstawa, ale prawdziwa nauka zaczyna się, gdy zaczniesz używać języka w praktyce.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section">
+            <div class="content-section">
+                <h2 class="section-subtitle reveal-element">Co mówią moi uczniowie</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card reveal-element">
+                        <div class="testimonial-content">
+                            <blockquote>"Bartek ma niesamowity dar tłumaczenia skomplikowanych rzeczy w prosty sposób. Po roku nauki czuję się pewnie w każdej rozmowie."</blockquote>
+                            <cite>– Magdalena R., Business English</cite>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="stars">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card reveal-element">
+                        <div class="testimonial-content">
+                            <blockquote>"Przygotowanie do DELF B2 przebiegło bez stresu. Bartek doskonale wie, na czym skupić uwagę przed egzaminem."</blockquote>
+                            <cite>– Tomasz K., przygotowanie do DELF</cite>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="stars">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card reveal-element">
+                        <div class="testimonial-content">
+                            <blockquote>"Elastyczność terminów i indywidualne podejście to największe atuty. Polecam każdemu, kto chce się skutecznie uczyć."</blockquote>
+                            <cite>– Anna S., konwersacje angielskie</cite>
+                        </div>
+                        <div class="testimonial-rating">
+                            <span class="stars">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section reveal-element">
+            <div class="cta-content">
+                <h2>Gotowy na pierwszą lekcję?</h2>
+                <p>Poznajmy się podczas bezpłatnej konsultacji i zaplanujmy Twoją ścieżkę nauki.</p>
+                <a href="kontakt.html" class="btn-cta">Umów bezpłatną konsultację</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column about">
+                    <div class="logo-bp">BP</div>
+                    <p>Pomagam przełamać bariery językowe i odkryć radość z płynnej komunikacji.</p>
+                </div>
+                <div class="footer-column links">
+                    <h4>Nawigacja</h4>
+                    <ul>
+                        <li><a href="index.html">Start</a></li>
+                        <li><a href="o-mnie.html">O mnie</a></li>
+                        <li><a href="oferta.html">Oferta</a></li>
+                        <li><a href="cennik.html">Cennik</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column contact">
+                    <h4>Kontakt</h4>
+                    <p>
+                        <a href="mailto:bar.plociennik@gmail.com">bar.plociennik@gmail.com</a><br>
+                        <a href="tel:+48661576007">+48 661 576 007</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© Bartłomiej Płóciennik 2025</p>
+                <div class="author-credit">
+                    <span>Stworzone przez</span>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="author-name">Wroblewski</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cta-popup" class="cta-popup">
+        <div class="cta-modal">
+            <button id="cta-close-btn" class="cta-close-btn">&times;</button>
+            <h3>Szybki Kontakt</h3>
+            <p>Porozmawiajmy o Twoich celach językowych.</p>
+            <a href="tel:+48661576007" class="cta-link">Zadzwoń: +48 661 576 007</a>
+            <a href="mailto:bar.plociennik@gmail.com" class="cta-link">Napisz e-mail</a>
+            <a href="kontakt.html" class="cta-main-link">Przejdź do formularza</a>
+        </div>
+        <button id="cta-open-btn" class="cta-open-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
