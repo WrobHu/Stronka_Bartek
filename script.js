@@ -176,34 +176,6 @@ class ModernApp {
             });
         }
 
-        // Slider poziomów
-        if (elements.levelSlider) {
-            const levelDisplay = document.getElementById('level-display');
-            if (levelDisplay) {
-                const updateLevelDisplay = () => {
-                    const value = elements.levelSlider.value;
-                    levelDisplay.textContent = value;
-                    
-                    // Dodaj kolory w zależności od poziomu
-                    const container = elements.levelSlider.closest('.level-slider-container');
-                    if (container) {
-                        container.classList.remove('level-low', 'level-medium', 'level-high');
-                        
-                        if (value <= 3) {
-                            container.classList.add('level-low');
-                        } else if (value <= 7) {
-                            container.classList.add('level-medium');
-                        } else {
-                            container.classList.add('level-high');
-                        }
-                    }
-                };
-                
-                elements.levelSlider.addEventListener('input', updateLevelDisplay);
-                updateLevelDisplay(); // Initialize
-            }
-        }
-
         // Real-time validation
         const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
         inputs.forEach(input => {
@@ -405,31 +377,34 @@ class ModernApp {
             
             console.log('📤 Sending form data:', data);
             
-            // GOOGLE SHEETS URL
-            // GOOGLE SHEETS URL
+            // GOOGLE SHEETS URL - POPRAWIONY
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaCkI-DBCFCNU2BwAUgA0cE9OYlSXj2DyLbmyTOIHWIpPwQOWUNqB_lMUF8PMwE2eV/exec';
-            // Wyślij do Google Sheets
+            
+            // Wyślij do Google Sheets - UŻYWAJĄC DZIAŁAJĄCEGO KODU
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             });
             
+            console.log('📡 Response status:', response.status);
+            console.log('📡 Response OK:', response.ok);
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const result = await response.json();
+            console.log('📋 Response result:', result);
             
             if (result.success) {
                 // Pokaż sukces
                 this.showFormSuccess(form, successState, formContainer);
                 console.log('✅ Form submitted successfully to Google Sheets!');
             } else {
-                throw new Error(result.error || 'Unknown error from Google Sheets');
+                throw new Error(result.error || result.message || 'Unknown error from Google Sheets');
             }
             
         } catch (error) {
@@ -530,12 +505,11 @@ class ModernApp {
                 successState.classList.add('visible');
             });
             
-            // SCROLL DO GÓRY PO WYSŁANIU - NOWA FUNKCJA
+            // SCROLL DO GÓRY PO WYSŁANIU
             setTimeout(() => {
-                // Scroll do początku success state z małym offsetem
                 const formSection = document.querySelector('.form-section');
                 if (formSection) {
-                    const offsetTop = formSection.offsetTop - 100; // 100px offset od góry
+                    const offsetTop = formSection.offsetTop - 100;
                     window.scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -571,7 +545,7 @@ class ModernApp {
         }
     }
 
-    // === CTA POPUP - PROSTSZE I DZIAŁAJĄCE ===
+    // === CTA POPUP ===
     initializeCTAPopup() {
         const popup = document.getElementById('cta-popup');
         if (!popup) return;
@@ -623,25 +597,22 @@ class ModernApp {
             }, 300);
         };
 
-        // Simple event listeners
+        // Event listeners
         openBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('CTA open button clicked');
             openModal();
         });
         
         closeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('CTA close button clicked');
             closeModal();
         });
         
         // Close on outside click
         document.addEventListener('click', (e) => {
             if (isOpen && !modal.contains(e.target) && !openBtn.contains(e.target)) {
-                console.log('Closing CTA modal - outside click');
                 closeModal();
             }
         });
@@ -649,7 +620,6 @@ class ModernApp {
         // Close on link click
         modal.addEventListener('click', (e) => {
             if (e.target.tagName === 'A') {
-                console.log('Closing CTA modal - link clicked');
                 closeModal();
             }
         });
@@ -657,7 +627,6 @@ class ModernApp {
         // Close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isOpen) {
-                console.log('Closing CTA modal - escape key');
                 closeModal();
             }
         });
@@ -857,4 +826,4 @@ injectAnimations();
 const app = new ModernApp();
 window.app = app;
 
-console.log('🎯 App loaded successfully')
+console.log('🎯 App loaded successfully');
