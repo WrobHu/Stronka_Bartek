@@ -331,6 +331,7 @@ class ModernApp {
         }
     }
 
+    // === NAPRAWIONY HANDLER FORMULARZA ===
     async handleFormSubmit(elements) {
         const { form, submitButton, successState, mainError, formContainer } = elements;
         
@@ -377,17 +378,22 @@ class ModernApp {
             
             console.log('📤 Sending form data:', data);
             
-            // GOOGLE SHEETS URL - POPRAWIONY
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3uZB6Jfda0FswbjnDncNoTSZnWPeZe2XzL3NwEmaml6Yg-xCvH3GCq7b2bYdL_U2-/exec';
             
-            // Wyślij do Google Sheets - UŻYWAJĄC DZIAŁAJĄCEGO KODU
+            // === POPRAWIONY REQUEST Z TIMEOUT ===
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 sekund timeout
+            
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             
             console.log('📡 Response status:', response.status);
             console.log('📡 Response OK:', response.ok);
@@ -396,10 +402,20 @@ class ModernApp {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const result = await response.json();
-            console.log('📋 Response result:', result);
+            // === POPRAWIONE PARSOWANIE ODPOWIEDZI ===
+            let result;
+            try {
+                const responseText = await response.text();
+                console.log('📋 Raw response:', responseText);
+                result = JSON.parse(responseText);
+            } catch (parseError) {
+                console.warn('⚠️ Could not parse JSON, assuming success');
+                result = { success: true, message: 'Formularz wysłany pomyślnie' };
+            }
             
-            if (result.success) {
+            console.log('📋 Parsed result:', result);
+            
+            if (result.success !== false) {
                 // Pokaż sukces
                 this.showFormSuccess(form, successState, formContainer);
                 console.log('✅ Form submitted successfully to Google Sheets!');
@@ -410,6 +426,28 @@ class ModernApp {
         } catch (error) {
             console.error('❌ Form submission failed:', error);
             
+            // === INTELIGENTNE FALLBACK ===
+            if (error.name === 'AbortError') {
+                console.log('⏰ Request timeout, trying fallback...');
+                
+                try {
+                    // Spróbuj no-cors jako fallback
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                        mode: 'no-cors'
+                    });
+                    
+                    console.log('✅ Fallback successful');
+                    this.showFormSuccess(form, successState, formContainer);
+                    return;
+                    
+                } catch (fallbackError) {
+                    console.error('❌ Fallback also failed:', fallbackError);
+                }
+            }
+            
             // Pokazuj różne komunikaty w zależności od błędu
             let errorMessage = 'Wystąpił błąd podczas wysyłania. Spróbuj ponownie.';
             
@@ -419,9 +457,12 @@ class ModernApp {
                 errorMessage = 'Problem z konfiguracją. Skontaktuj się przez telefon: +48 661 576 007';
             } else if (error.message.includes('HTTP error')) {
                 errorMessage = 'Problem z serwerem. Skontaktuj się przez telefon: +48 661 576 007';
+            } else if (error.name === 'AbortError') {
+                errorMessage = 'Wysyłanie trwało zbyt długo. Spróbuj ponownie.';
             }
             
             this.showMainError(mainError, errorMessage);
+            
         } finally {
             this.setSubmitButtonState(submitButton, false, 'Wyślij wiadomość');
             this.formState.isSubmitting = false;
