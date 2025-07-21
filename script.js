@@ -378,7 +378,7 @@ class ModernApp {
             console.log('📤 Sending form data:', data);
             
             // GOOGLE SHEETS URL - POPRAWIONY
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaCkI-DBCFCNU2BwAUgA0cE9OYlSXj2DyLbmyTOIHWIpPwQOWUNqB_lMUF8PMwE2eV/exec';
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3uZB6Jfda0FswbjnDncNoTSZnWPeZe2XzL3NwEmaml6Yg-xCvH3GCq7b2bYdL_U2-/exec';
             
             // Wyślij do Google Sheets - UŻYWAJĄC DZIAŁAJĄCEGO KODU
             const response = await fetch(GOOGLE_SCRIPT_URL, {
