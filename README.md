@@ -1,0 +1,1 @@
+# Stronka_Bartek
