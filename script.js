@@ -176,6 +176,34 @@ class ModernApp {
             });
         }
 
+        // Slider poziomów
+        if (elements.levelSlider) {
+            const levelDisplay = document.getElementById('level-display');
+            if (levelDisplay) {
+                const updateLevelDisplay = () => {
+                    const value = elements.levelSlider.value;
+                    levelDisplay.textContent = value;
+                    
+                    // Dodaj kolory w zależności od poziomu
+                    const container = elements.levelSlider.closest('.level-slider-container');
+                    if (container) {
+                        container.classList.remove('level-low', 'level-medium', 'level-high');
+                        
+                        if (value <= 3) {
+                            container.classList.add('level-low');
+                        } else if (value <= 7) {
+                            container.classList.add('level-medium');
+                        } else {
+                            container.classList.add('level-high');
+                        }
+                    }
+                };
+                
+                elements.levelSlider.addEventListener('input', updateLevelDisplay);
+                updateLevelDisplay(); // Initialize
+            }
+        }
+
         // Real-time validation
         const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
         inputs.forEach(input => {
@@ -331,7 +359,6 @@ class ModernApp {
         }
     }
 
-    // === NAPRAWIONY HANDLER FORMULARZA ===
     async handleFormSubmit(elements) {
         const { form, submitButton, successState, mainError, formContainer } = elements;
         
@@ -378,75 +405,35 @@ class ModernApp {
             
             console.log('📤 Sending form data:', data);
             
+            // GOOGLE SHEETS URL
+            // GOOGLE SHEETS URL
             const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3uZB6Jfda0FswbjnDncNoTSZnWPeZe2XzL3NwEmaml6Yg-xCvH3GCq7b2bYdL_U2-/exec';
-            
-            // === POPRAWIONY REQUEST Z TIMEOUT ===
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 sekund timeout
-            
+            // Wyślij do Google Sheets
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data),
-                signal: controller.signal
+                body: JSON.stringify(data)
             });
             
-            clearTimeout(timeoutId);
-            
-            console.log('📡 Response status:', response.status);
-            console.log('📡 Response OK:', response.ok);
-
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            // === POPRAWIONE PARSOWANIE ODPOWIEDZI ===
-            let result;
-            try {
-                const responseText = await response.text();
-                console.log('📋 Raw response:', responseText);
-                result = JSON.parse(responseText);
-            } catch (parseError) {
-                console.warn('⚠️ Could not parse JSON, assuming success');
-                result = { success: true, message: 'Formularz wysłany pomyślnie' };
-            }
             
-            console.log('📋 Parsed result:', result);
+            const result = await response.json();
             
-            if (result.success !== false) {
+            if (result.success) {
                 // Pokaż sukces
                 this.showFormSuccess(form, successState, formContainer);
                 console.log('✅ Form submitted successfully to Google Sheets!');
             } else {
-                throw new Error(result.error || result.message || 'Unknown error from Google Sheets');
+                throw new Error(result.error || 'Unknown error from Google Sheets');
             }
             
         } catch (error) {
             console.error('❌ Form submission failed:', error);
-            
-            // === INTELIGENTNE FALLBACK ===
-            if (error.name === 'AbortError') {
-                console.log('⏰ Request timeout, trying fallback...');
-                
-                try {
-                    // Spróbuj no-cors jako fallback
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data),
-                        mode: 'no-cors'
-                    });
-                    
-                    console.log('✅ Fallback successful');
-                    this.showFormSuccess(form, successState, formContainer);
-                    return;
-                    
-                } catch (fallbackError) {
-                    console.error('❌ Fallback also failed:', fallbackError);
-                }
-            }
             
             // Pokazuj różne komunikaty w zależności od błędu
             let errorMessage = 'Wystąpił błąd podczas wysyłania. Spróbuj ponownie.';
@@ -457,12 +444,9 @@ class ModernApp {
                 errorMessage = 'Problem z konfiguracją. Skontaktuj się przez telefon: +48 661 576 007';
             } else if (error.message.includes('HTTP error')) {
                 errorMessage = 'Problem z serwerem. Skontaktuj się przez telefon: +48 661 576 007';
-            } else if (error.name === 'AbortError') {
-                errorMessage = 'Wysyłanie trwało zbyt długo. Spróbuj ponownie.';
             }
             
             this.showMainError(mainError, errorMessage);
-            
         } finally {
             this.setSubmitButtonState(submitButton, false, 'Wyślij wiadomość');
             this.formState.isSubmitting = false;
@@ -546,11 +530,12 @@ class ModernApp {
                 successState.classList.add('visible');
             });
             
-            // SCROLL DO GÓRY PO WYSŁANIU
+            // SCROLL DO GÓRY PO WYSŁANIU - NOWA FUNKCJA
             setTimeout(() => {
+                // Scroll do początku success state z małym offsetem
                 const formSection = document.querySelector('.form-section');
                 if (formSection) {
-                    const offsetTop = formSection.offsetTop - 100;
+                    const offsetTop = formSection.offsetTop - 100; // 100px offset od góry
                     window.scrollTo({
                         top: offsetTop,
                         behavior: 'smooth'
@@ -586,7 +571,7 @@ class ModernApp {
         }
     }
 
-    // === CTA POPUP ===
+    // === CTA POPUP - PROSTSZE I DZIAŁAJĄCE ===
     initializeCTAPopup() {
         const popup = document.getElementById('cta-popup');
         if (!popup) return;
@@ -638,22 +623,25 @@ class ModernApp {
             }, 300);
         };
 
-        // Event listeners
+        // Simple event listeners
         openBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('CTA open button clicked');
             openModal();
         });
         
         closeBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('CTA close button clicked');
             closeModal();
         });
         
         // Close on outside click
         document.addEventListener('click', (e) => {
             if (isOpen && !modal.contains(e.target) && !openBtn.contains(e.target)) {
+                console.log('Closing CTA modal - outside click');
                 closeModal();
             }
         });
@@ -661,6 +649,7 @@ class ModernApp {
         // Close on link click
         modal.addEventListener('click', (e) => {
             if (e.target.tagName === 'A') {
+                console.log('Closing CTA modal - link clicked');
                 closeModal();
             }
         });
@@ -668,6 +657,7 @@ class ModernApp {
         // Close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isOpen) {
+                console.log('Closing CTA modal - escape key');
                 closeModal();
             }
         });
