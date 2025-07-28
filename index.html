@@ -9,6 +9,130 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style dla nowych elementów intro */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(29, 78, 216, 0.05) 100%);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+        
+        .highlight-box h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--color-accent);
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .intro-card {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: 2rem 1.5rem;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+            transform-origin: left;
+        }
+        
+        .intro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--color-accent);
+        }
+        
+        .intro-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .intro-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .intro-card p {
+            color: var(--color-text-light);
+            line-height: 1.6;
+            font-weight: 300;
+            margin: 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .intro-card {
+                padding: 1.5rem;
+            }
+            
+            .highlight-box {
+                padding: 1.5rem;
+                margin: 1.5rem 0 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .intro-card h4 {
+                font-size: 1.1rem;
+            }
+            
+            .highlight-box h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="floating-words-background" id="floating-words-container"></div>
@@ -50,8 +174,33 @@
         </section>
 
         <section class="content-section">
-            <h2 class="section-title reveal-element">Nauka języka to coś więcej niż zapamiętywanie długich list słów <br> i nieustanne powtarzanie zasad gramatycznych. <br> <br> To drzwi do nowych znajomości i doświadczeń.</h2>
-            <p class="section-description reveal-element" style="font-size: 1.25rem; line-height: 1.8; font-weight: 400;"> <br> Nazywam się Bartek Płóciennik i pomogę Ci rozpocząć lub rozwinąć Twoją przygodę z językiem angielskim. Stawiam na indywidualne podejście do każdego kursanta, serdeczną atmosferę z miejscem na robienie błędów oraz cierpliwe dążenie do sukcesu (niezależnie od tego, jak go zdefiniujesz) - krok po kroku, <br> bez presji. Zapraszam na zajęcia stacjonarnie w Luboniu przy ulicy Sobieskiego 100D <br> lub online, z dowolnego miejsca na świecie.</p>
+            <h2 class="section-title reveal-element">Nauka języka to coś więcej niż zapamiętywanie długich list słów i nieustanne powtarzanie zasad gramatycznych.</h2>
+            
+            <div class="highlight-box reveal-element">
+                <h3>To drzwi do nowych znajomości i doświadczeń.</h3>
+            </div>
+            
+            <div class="intro-grid">
+                <div class="intro-card reveal-element">
+                    <h4>👋 Kim jestem?</h4>
+                    <p>Nazywam się Bartek Płóciennik i pomogę Ci rozpocząć lub rozwinąć Twoją przygodę z językiem angielskim.</p>
+                </div>
+                
+                <div class="intro-card reveal-element">
+                    <h4>🎯 Moje podejście</h4>
+                    <p>Stawiam na indywidualne podejście do każdego kursanta, serdeczną atmosferę z miejscem na robienie błędów oraz cierpliwe dążenie do sukcesu - krok po kroku, bez presji.</p>
+                </div>
+                
+                <div class="intro-card reveal-element">
+                    <h4>🏢 Zajęcia stacjonarne</h4>
+                    <p>Spotkajmy się osobiście w Luboniu przy ulicy Sobieskiego 100D w komfortowej i przyjaznej atmosferze.</p>
+                </div>
+                
+                <div class="intro-card reveal-element">
+                    <h4>💻 Zajęcia online</h4>
+                    <p>Ucz się z dowolnego miejsca na świecie - wystarczy komputer i połączenie z internetem.</p>
+                </div>
+            </div>
         </section>
 
         <section class="content-section">
