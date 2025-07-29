@@ -312,21 +312,22 @@
             font-weight: 600;
         }
         
-        /* FAQ styling - wyśrodkowane */
+        /* FAQ styling - wyśrodkowane i wycentrowane */
         .faq-section {
             background: var(--color-surface);
             padding: 4rem 2rem;
             margin: 4rem 0;
             border-radius: var(--border-radius-large);
+            text-align: center;
         }
         
         .faq-grid {
             display: grid;
             gap: 1.5rem;
-            margin-top: 2rem;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 2rem auto 0;
+            max-width: 900px;
+            grid-template-columns: 1fr;
+            justify-items: center;
         }
         
         .faq-item {
@@ -336,6 +337,9 @@
             padding: 2rem;
             transition: all var(--transition-normal);
             box-shadow: var(--shadow-subtle);
+            width: 100%;
+            max-width: 800px;
+            text-align: left;
         }
         
         .faq-item:hover {
