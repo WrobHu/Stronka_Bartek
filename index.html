@@ -201,47 +201,9 @@
             overflow: hidden;
         }
         
-        /* Breadcrumbs styling */
+        /* Breadcrumbs styling - minimalne i dyskretne */
         .breadcrumb-nav {
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid var(--color-border-light);
-            padding: 0.5rem 2rem;
-            font-size: 0.9rem;
-            position: sticky;
-            top: var(--header-height);
-            z-index: 999;
-            backdrop-filter: blur(10px);
-        }
-        
-        .breadcrumb-list {
-            list-style: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 0;
-            padding: 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .breadcrumb-item {
-            color: var(--color-text-muted);
-            font-size: 0.85rem;
-        }
-        
-        .breadcrumb-item:not(:last-child)::after {
-            content: '→';
-            margin-left: 0.5rem;
-            color: var(--color-border);
-        }
-        
-        @media (max-width: 768px) {
-            .breadcrumb-nav {
-                padding: 0.3rem 1rem;
-            }
-            .breadcrumb-list {
-                font-size: 0.8rem;
-            }
+            display: none; /* Ukryte na stronie głównej */
         }
         
         /* Style dla nowych elementów intro */
@@ -350,7 +312,7 @@
             font-weight: 600;
         }
         
-        /* FAQ styling */
+        /* FAQ styling - wyśrodkowane */
         .faq-section {
             background: var(--color-surface);
             padding: 4rem 2rem;
@@ -362,6 +324,9 @@
             display: grid;
             gap: 1.5rem;
             margin-top: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .faq-item {
@@ -464,8 +429,8 @@
         </button>
     </header>
 
-    <!-- Breadcrumbs -->
-    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+    <!-- Breadcrumbs - ukryte wizualnie, tylko dla SEO -->
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav" style="display: none;">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb-list">
             <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
                 <span itemprop="name">Strona główna</span>
@@ -478,11 +443,11 @@
         <section class="hero-section" role="banner">
             <div class="hero-content">
                 <h1 class="page-main-title">Korepetycje Angielski i Francuski Luboń Poznań - Bartłomiej Płóciennik</h1>
-                <h2 class="animated-headline">Porozmawiajmy<br>bez barier.</h2>
-                <p class="hero-description reveal-element">Odkryj radość z płynnej komunikacji i przełam językowe bariery na korepetycjach w Luboniu lub online.</p>
+                <h2 class="animated-headline" style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; margin-bottom: 1.5rem;">Porozmawiajmy<br>bez barier.</h2>
+                <p class="hero-description reveal-element" style="font-size: 1.3rem; margin-bottom: 2.5rem;">Odkryj radość z płynnej komunikacji i przełam językowe bariery na korepetycjach w Luboniu lub online.</p>
                 <div class="hero-actions reveal-element">
-                    <a href="kontakt.html" class="btn-primary" title="Umów bezpłatną lekcję próbną">Zacznij naukę</a>
-                    <a href="cennik.html" class="btn-secondary" title="Sprawdź ceny korepetycji">Zobacz cennik</a>
+                    <a href="kontakt.html" class="btn-primary" style="padding: 1rem 2rem; font-size: 1rem;" title="Umów bezpłatną lekcję próbną">Zacznij naukę</a>
+                    <a href="cennik.html" class="btn-secondary" style="padding: 1rem 2rem; font-size: 1rem;" title="Sprawdź ceny korepetycji">Zobacz cennik</a>
                 </div>
             </div>
         </section>
