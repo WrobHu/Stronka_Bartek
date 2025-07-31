@@ -509,17 +509,10 @@
                     <h3>Praktyczne metody</h3>
                     <p>Skupiamy się na prawdziwych sytuacjach i żywym języku, żebyś od razu mógł wykorzystać zdobytą wiedzę w pracy, podróżach czy codziennych rozmowach.</p>
                 </article>
-                <article class="feature-item reveal-element">
-                    <div class="feature-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM10 5.47l4 1.4v11.66l-4-1.4V5.47zm-5 .99l3-1.01v11.7l-3 1.16V6.46zm14 11.08l-3 1.01V6.86l3-1.16v11.84z"/>
-                        </svg>
-                    </div>
-                    <h3>Elastyczność online</h3>
-                    <p>Ucz się z dowolnego miejsca na świecie w godzinach, które Ci odpowiadają, lub przyjdź na zajęcia stacjonarne w Luboniu.</p>
-                </article>
             </div>
         </section>
+
+
 
         <section class="content-section faq-section">
             <h2 class="section-subtitle reveal-element">Najczęściej zadawane pytania</h2>
@@ -602,22 +595,19 @@
     </footer>
 
     <div id="cta-popup" class="cta-popup">
-        <button id="cta-open-btn" class="cta-open-btn" aria-label="Otwórz szybki kontakt">
+        <div class="cta-modal">
+            <button id="cta-close-btn" class="cta-close-btn">&times;</button>
+            <h3>Szybki Kontakt</h3>
+            <p>Porozmawiajmy o Twoich celach językowych.</p>
+            <a href="tel:+48661576007" class="cta-link">Zadzwoń: +48 661 576 007</a>
+            <a href="mailto:bar.plociennik@gmail.com" class="cta-link">Napisz e-mail</a>
+            <a href="kontakt.html" class="cta-main-link">Przejdź do formularza</a>
+        </div>
+        <button id="cta-open-btn" class="cta-open-btn">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
             </svg>
         </button>
-        <div class="cta-modal" id="cta-modal">
-            <button id="cta-close-btn" class="cta-close-btn" aria-label="Zamknij">&times;</button>
-            <h3>💬 Szybki Kontakt</h3>
-            <p>Porozmawiajmy o Twoich celach językowych!</p>
-            <a href="tel:+48661576007" class="cta-phone-btn" title="Zadzwoń teraz">
-                📞 Zadzwoń: +48 661 576 007
-            </a>
-            <a href="kontakt.html" class="cta-form-btn" title="Wypełnij formularz kontaktowy">
-                📋 Przejdź do formularza
-            </a>
-        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
