@@ -367,51 +367,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-    <script>
-        // === PROSTA WALIDACJA CHECKBOXA - TYLKO W KONTAKT.HTML ===
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('contact-form');
-            const privacyCheckbox = document.getElementById('privacy_consent');
-            const privacyLabel = document.querySelector('.privacy-checkbox');
-            const privacyGroup = document.querySelector('.privacy-consent-group');
-            
-            if (form && privacyCheckbox) {
-                // Czyść błędy gdy checkbox zostanie zaznaczony
-                privacyCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        privacyLabel.classList.remove('error');
-                        privacyGroup.classList.remove('error');
-                        const errorSpan = privacyGroup.querySelector('.error-message');
-                        if (errorSpan) {
-                            errorSpan.classList.remove('visible');
-                        }
-                    }
-                });
-                
-                // Dodaj walidację checkboxa do wysyłania formularza
-                form.addEventListener('submit', function(e) {
-                    if (!privacyCheckbox.checked) {
-                        e.preventDefault();
-                        
-                        // Pokaż błąd checkboxa
-                        const errorSpan = privacyGroup.querySelector('.error-message');
-                        if (errorSpan) {
-                            errorSpan.textContent = 'Musisz wyrazić zgodę na przetwarzanie danych osobowych.';
-                            errorSpan.classList.add('visible');
-                        }
-                        privacyLabel.classList.add('error');
-                        privacyGroup.classList.add('error');
-                        
-                        // Scroll do checkboxa
-                        privacyGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
-                        return false;
-                    }
-                });
-            }
-        });
-    </script>
     <script src="script.js" defer></script>
 </body>
 </html>
