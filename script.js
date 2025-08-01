@@ -1,5 +1,5 @@
 // === NAPRAWIONA APLIKACJA - BARTŁOMIEJ PŁÓCIENNIK ===
-// TYLKO GOOGLE SHEETS - BEZ NETLIFY
+// TYLKO GOOGLE SHEETS - BEZ NETLIFY + OBSŁUGA CHECKBOXA RODO
 
 class ModernApp {
     constructor() {
@@ -138,7 +138,7 @@ class ModernApp {
         console.log('✅ Mobile menu initialized');
     }
 
-    // === FORMULARZ ===
+    // === FORMULARZ Z OBSŁUGĄ CHECKBOXA ===
     initializeForm() {
         const form = document.getElementById('contact-form');
         if (!form) return;
@@ -163,23 +163,33 @@ class ModernApp {
             });
         }
 
-        // Real-time validation
+        // Real-time validation dla wszystkich pól WŁĄCZNIE Z CHECKBOXEM
         const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
         inputs.forEach(input => {
-            input.addEventListener('blur', () => {
-                this.formState.validationEnabled = true;
-                this.validateField(input);
-            });
-            
-            input.addEventListener('input', () => {
-                if (this.formState.validationEnabled || input.classList.contains('error')) {
+            // Różne eventy dla różnych typów pól
+            if (input.type === 'checkbox') {
+                // Dla checkbox tylko change
+                input.addEventListener('change', () => {
+                    this.formState.validationEnabled = true;
                     this.validateField(input);
-                }
-            });
+                });
+            } else {
+                // Dla pozostałych pól blur i input
+                input.addEventListener('blur', () => {
+                    this.formState.validationEnabled = true;
+                    this.validateField(input);
+                });
+                
+                input.addEventListener('input', () => {
+                    if (this.formState.validationEnabled || input.classList.contains('error')) {
+                        this.validateField(input);
+                    }
+                });
 
-            input.addEventListener('focus', () => {
-                this.clearFieldError(input);
-            });
+                input.addEventListener('focus', () => {
+                    this.clearFieldError(input);
+                });
+            }
         });
 
         // Form submission
@@ -194,14 +204,32 @@ class ModernApp {
     }
 
     validateField(field) {
-        const value = field.value.trim();
+        const value = field.value ? field.value.trim() : '';
         const errorSpan = field.closest('.form-group')?.querySelector('.error-message');
         let isValid = true;
         let message = '';
 
+        // Usuń poprzednie klasy
         field.classList.remove('valid', 'error');
-
-        if (field.required && !value) {
+        
+        // OBSŁUGA CHECKBOXA RODO
+        if (field.type === 'checkbox' && field.name === 'privacy_consent') {
+            const privacyLabel = document.querySelector('.privacy-checkbox');
+            const privacyGroup = document.querySelector('.privacy-consent-group');
+            
+            if (field.required && !field.checked) {
+                isValid = false;
+                message = 'Musisz wyrazić zgodę na przetwarzanie danych osobowych.';
+                
+                if (privacyLabel) privacyLabel.classList.add('error');
+                if (privacyGroup) privacyGroup.classList.add('error');
+            } else if (field.checked) {
+                if (privacyLabel) privacyLabel.classList.remove('error');
+                if (privacyGroup) privacyGroup.classList.remove('error');
+            }
+        }
+        // WALIDACJA DLA POZOSTAŁYCH PÓL
+        else if (field.required && !value) {
             isValid = false;
             message = 'To pole jest wymagane.';
         } else if (field.type === 'email' && value) {
@@ -218,18 +246,22 @@ class ModernApp {
             }
         }
 
-        if (isValid && value) {
-            if (field.id === 'message') {
-                if (value.length > 0) {
+        // Dodaj klasy dla zwykłych pól (nie checkbox)
+        if (field.type !== 'checkbox') {
+            if (isValid && value) {
+                if (field.id === 'message') {
+                    if (value.length > 0) {
+                        field.classList.add('valid');
+                    }
+                } else {
                     field.classList.add('valid');
                 }
-            } else {
-                field.classList.add('valid');
+            } else if (!isValid) {
+                field.classList.add('error');
             }
-        } else if (!isValid) {
-            field.classList.add('error');
         }
 
+        // Pokaż/ukryj komunikat błędu
         if (errorSpan) {
             errorSpan.textContent = message;
             errorSpan.classList.toggle('visible', !isValid && message);
@@ -243,6 +275,14 @@ class ModernApp {
         if (errorSpan && errorSpan.classList.contains('visible')) {
             errorSpan.classList.remove('visible');
         }
+        
+        // Dla checkboxa także wyczyść klasy error
+        if (field.type === 'checkbox' && field.name === 'privacy_consent') {
+            const privacyLabel = document.querySelector('.privacy-checkbox');
+            const privacyGroup = document.querySelector('.privacy-consent-group');
+            if (privacyLabel) privacyLabel.classList.remove('error');
+            if (privacyGroup) privacyGroup.classList.remove('error');
+        }
     }
 
     // === OBSŁUGA WYSYŁANIA FORMULARZA - TYLKO GOOGLE SHEETS ===
@@ -252,7 +292,7 @@ class ModernApp {
         this.formState.isSubmitting = true;
         this.formState.validationEnabled = true;
         
-        // Waliduj wszystkie wymagane pola
+        // Waliduj wszystkie wymagane pola WŁĄCZNIE Z CHECKBOXEM
         const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
         let isValid = true;
         let firstInvalidField = null;
@@ -274,7 +314,10 @@ class ModernApp {
                     behavior: 'smooth', 
                     block: 'center' 
                 });
-                firstInvalidField.focus();
+                // Dla checkboxa nie focusuj, ale dla innych tak
+                if (firstInvalidField.type !== 'checkbox') {
+                    firstInvalidField.focus();
+                }
             }
             
             this.formState.isSubmitting = false;
@@ -801,4 +844,4 @@ injectAnimations();
 const app = new ModernApp();
 window.app = app;
 
-console.log('🎯 App loaded successfully - Google Sheets only version');
+console.log('🎯 App loaded successfully - Google Sheets + checkbox RODO version');
