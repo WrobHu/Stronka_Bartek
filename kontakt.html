@@ -8,6 +8,134 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style dla checkboxa zgodna RODO */
+        .privacy-consent-group {
+            margin: 2rem 0 1rem 0;
+            padding: 1.5rem;
+            background: var(--color-accent-light);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+        }
+        
+        .privacy-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--color-text);
+            font-weight: 400;
+        }
+        
+        .privacy-checkbox input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 0;
+            height: 0;
+        }
+        
+        .privacy-checkbox .checkmark {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-background);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-small);
+            transition: all var(--transition-normal);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .privacy-checkbox:hover .checkmark {
+            border-color: var(--color-accent);
+        }
+        
+        .privacy-checkbox input:checked ~ .checkmark {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+        
+        .privacy-checkbox .checkmark::after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .privacy-checkbox input:checked ~ .checkmark::after {
+            display: block;
+        }
+        
+        .privacy-checkbox.error .checkmark {
+            border-color: var(--color-error);
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+        
+        .privacy-checkbox a {
+            color: var(--color-accent);
+            text-decoration: underline;
+            font-weight: 600;
+            transition: color var(--transition-normal);
+        }
+        
+        .privacy-checkbox a:hover {
+            color: var(--color-accent-hover);
+            text-decoration: none;
+        }
+        
+        .privacy-consent-group .error-message {
+            margin-top: 0.8rem;
+            margin-left: 2.8rem;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .privacy-consent-group {
+                padding: 1rem;
+                margin: 1.5rem 0 1rem 0;
+            }
+            
+            .privacy-checkbox {
+                font-size: 0.9rem;
+                gap: 0.6rem;
+            }
+            
+            .privacy-checkbox .checkmark {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .privacy-checkbox .checkmark::after {
+                left: 5px;
+                top: 1px;
+                width: 3px;
+                height: 7px;
+            }
+            
+            .privacy-consent-group .error-message {
+                margin-left: 2.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .privacy-checkbox {
+                font-size: 0.85rem;
+            }
+            
+            .privacy-consent-group {
+                padding: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="mouse-gradient-background"></div>
@@ -86,6 +214,15 @@
                     <div class="form-group">
                         <label for="message">Twoja wiadomość (opcjonalnie)</label>
                         <textarea id="message" name="message" rows="4" placeholder="Powiedz mi więcej o swoich celach językowych, doświadczeniu lub pytaniach..."></textarea>
+                    </div>
+                    
+                    <div class="form-group privacy-consent-group">
+                        <label class="privacy-checkbox">
+                            <input type="checkbox" name="privacy_consent" id="privacy_consent" required>
+                            <span class="checkmark"></span>
+                            <span>Wyrażam zgodę na przetwarzanie moich danych osobowych przez Bartłomieja Płóciennika w celu kontaktu w sprawie korepetycji językowych. Dane będą przechowywane do realizacji usługi i przekazywane do Google (Google Sheets) w celu obsługi zapytania. Mam prawo dostępu, sprostowania, usunięcia danych oraz wycofania zgody w każdym momencie. <a href="polityka-prywatnosci.html" target="_blank">Polityka prywatności</a> *</span>
+                        </label>
+                        <span class="error-message"></span>
                     </div>
                     
                     <div id="form-main-error" class="main-error"></div>
@@ -201,6 +338,75 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script>
+        // === ROZSZERZONA WALIDACJA Z CHECKBOXEM RODO ===
+        
+        // Dodaj walidację checkbox do istniejącego script.js
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contact-form');
+            const privacyCheckbox = document.getElementById('privacy_consent');
+            const privacyLabel = document.querySelector('.privacy-checkbox');
+            
+            if (form && privacyCheckbox) {
+                // Dodaj event listener dla checkbox
+                privacyCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        privacyLabel.classList.remove('error');
+                        clearCheckboxError();
+                    }
+                });
+                
+                // Funkcja czyszczenia błędu checkbox
+                function clearCheckboxError() {
+                    const errorSpan = document.querySelector('.privacy-consent-group .error-message');
+                    if (errorSpan) {
+                        errorSpan.classList.remove('visible');
+                    }
+                }
+                
+                // Funkcja pokazania błędu checkbox
+                function showCheckboxError(message) {
+                    const errorSpan = document.querySelector('.privacy-consent-group .error-message');
+                    if (errorSpan) {
+                        errorSpan.textContent = message;
+                        errorSpan.classList.add('visible');
+                        privacyLabel.classList.add('error');
+                    }
+                }
+                
+                // Rozszerz istniejącą walidację o checkbox
+                const originalValidateForm = function() {
+                    let isValid = true;
+                    
+                    // Sprawdź wszystkie wymagane pola (istniejąca logika)
+                    const requiredFields = form.querySelectorAll('input[required]:not([type="checkbox"]), select[required], textarea[required]');
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                        }
+                    });
+                    
+                    // Sprawdź checkbox RODO
+                    if (!privacyCheckbox.checked) {
+                        showCheckboxError('Musisz wyrazić zgodę na przetwarzanie danych osobowych.');
+                        isValid = false;
+                    } else {
+                        clearCheckboxError();
+                    }
+                    
+                    return isValid;
+                };
+                
+                // Dodaj walidację do submit
+                form.addEventListener('submit', function(e) {
+                    if (!originalValidateForm()) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+        });
+    </script>
     <script src="script.js" defer></script>
 </body>
 </html>
