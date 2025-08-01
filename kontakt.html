@@ -9,24 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Style dla checkboxa zgodna RODO */
+        /* Style dla checkboxa zgodna RODO - ZAKTUALIZOWANE */
         .privacy-consent-group {
-            margin: 2rem 0 1rem 0;
-            padding: 1.5rem;
-            background: var(--color-accent-light);
-            border: 1px solid var(--color-accent);
-            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(249, 250, 251, 0.7);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            border-radius: var(--border-radius-small);
+            transition: all var(--transition-normal);
+        }
+        
+        .privacy-consent-group.error {
+            background: rgba(254, 242, 242, 0.8);
+            border-color: var(--color-error);
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
         }
         
         .privacy-checkbox {
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
+            gap: 0.6rem;
             cursor: pointer;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--color-text);
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #9ca3af;
             font-weight: 400;
+            transition: color var(--transition-normal);
+        }
+        
+        .privacy-checkbox.error {
+            color: var(--color-error);
         }
         
         .privacy-checkbox input[type="checkbox"] {
@@ -39,35 +51,35 @@
         
         .privacy-checkbox .checkmark {
             position: relative;
-            width: 20px;
-            height: 20px;
-            background-color: var(--color-background);
-            border: 2px solid var(--color-border);
-            border-radius: var(--border-radius-small);
+            width: 16px;
+            height: 16px;
+            background-color: #ffffff;
+            border: 1.5px solid #d1d5db;
+            border-radius: 2px;
             transition: all var(--transition-normal);
             flex-shrink: 0;
-            margin-top: 2px;
+            margin-top: 1px;
         }
         
         .privacy-checkbox:hover .checkmark {
-            border-color: var(--color-accent);
+            border-color: #9ca3af;
         }
         
         .privacy-checkbox input:checked ~ .checkmark {
-            background-color: var(--color-accent);
-            border-color: var(--color-accent);
+            background-color: var(--color-success);
+            border-color: var(--color-success);
         }
         
         .privacy-checkbox .checkmark::after {
             content: "";
             position: absolute;
             display: none;
-            left: 6px;
-            top: 2px;
-            width: 4px;
-            height: 8px;
+            left: 4px;
+            top: 0px;
+            width: 3px;
+            height: 7px;
             border: solid white;
-            border-width: 0 2px 2px 0;
+            border-width: 0 1.5px 1.5px 0;
             transform: rotate(45deg);
         }
         
@@ -77,62 +89,79 @@
         
         .privacy-checkbox.error .checkmark {
             border-color: var(--color-error);
-            background-color: rgba(220, 38, 38, 0.1);
+            background-color: rgba(254, 242, 242, 0.5);
+            animation: errorShake 0.4s ease-in-out;
+        }
+        
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
         }
         
         .privacy-checkbox a {
-            color: var(--color-accent);
+            color: #6b7280;
             text-decoration: underline;
-            font-weight: 600;
-            transition: color var(--transition-normal);
+            text-decoration-color: rgba(107, 114, 128, 0.4);
+            font-weight: 500;
+            transition: all var(--transition-normal);
         }
         
         .privacy-checkbox a:hover {
-            color: var(--color-accent-hover);
-            text-decoration: none;
+            color: var(--color-accent);
+            text-decoration-color: var(--color-accent);
+        }
+        
+        .privacy-checkbox.error a {
+            color: var(--color-error);
+            text-decoration-color: var(--color-error);
         }
         
         .privacy-consent-group .error-message {
-            margin-top: 0.8rem;
-            margin-left: 2.8rem;
+            margin-top: 0.6rem;
+            margin-left: 2.2rem;
+            font-size: 0.75rem;
+            color: var(--color-error);
+            font-weight: 500;
         }
         
         /* Mobile adjustments */
         @media (max-width: 768px) {
             .privacy-consent-group {
-                padding: 1rem;
-                margin: 1.5rem 0 1rem 0;
+                padding: 0.8rem;
+                margin: 0.8rem 0;
             }
             
             .privacy-checkbox {
-                font-size: 0.9rem;
-                gap: 0.6rem;
+                font-size: 0.75rem;
+                gap: 0.5rem;
             }
             
             .privacy-checkbox .checkmark {
-                width: 18px;
-                height: 18px;
+                width: 14px;
+                height: 14px;
             }
             
             .privacy-checkbox .checkmark::after {
-                left: 5px;
-                top: 1px;
-                width: 3px;
-                height: 7px;
+                left: 3px;
+                top: -1px;
+                width: 2.5px;
+                height: 6px;
             }
             
             .privacy-consent-group .error-message {
-                margin-left: 2.4rem;
+                margin-left: 1.9rem;
+                font-size: 0.7rem;
             }
         }
         
         @media (max-width: 480px) {
             .privacy-checkbox {
-                font-size: 0.85rem;
+                font-size: 0.7rem;
             }
             
             .privacy-consent-group {
-                padding: 0.8rem;
+                padding: 0.7rem;
             }
         }
     </style>
@@ -220,7 +249,7 @@
                         <label class="privacy-checkbox">
                             <input type="checkbox" name="privacy_consent" id="privacy_consent" required>
                             <span class="checkmark"></span>
-                            <span>Wyrażam zgodę na przetwarzanie moich danych osobowych przez Bartłomieja Płóciennika w celu kontaktu w sprawie korepetycji językowych. Dane będą przechowywane do realizacji usługi i przekazywane do Google (Google Sheets) w celu obsługi zapytania. Mam prawo dostępu, sprostowania, usunięcia danych oraz wycofania zgody w każdym momencie. <a href="polityka-prywatnosci.html" target="_blank">Polityka prywatności</a> *</span>
+                            <span>Akceptuję przetwarzanie danych osobowych w celu kontaktu. <a href="polityka-prywatnosci.html" target="_blank">Polityka prywatności</a> *</span>
                         </label>
                         <span class="error-message"></span>
                     </div>
@@ -359,18 +388,23 @@
                 // Funkcja czyszczenia błędu checkbox
                 function clearCheckboxError() {
                     const errorSpan = document.querySelector('.privacy-consent-group .error-message');
+                    const privacyGroup = document.querySelector('.privacy-consent-group');
                     if (errorSpan) {
                         errorSpan.classList.remove('visible');
+                        privacyLabel.classList.remove('error');
+                        privacyGroup.classList.remove('error');
                     }
                 }
                 
                 // Funkcja pokazania błędu checkbox
                 function showCheckboxError(message) {
                     const errorSpan = document.querySelector('.privacy-consent-group .error-message');
+                    const privacyGroup = document.querySelector('.privacy-consent-group');
                     if (errorSpan) {
                         errorSpan.textContent = message;
                         errorSpan.classList.add('visible');
                         privacyLabel.classList.add('error');
+                        privacyGroup.classList.add('error');
                     }
                 }
                 
