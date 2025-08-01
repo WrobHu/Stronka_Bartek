@@ -368,73 +368,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
-        // === ROZSZERZONA WALIDACJA Z CHECKBOXEM RODO ===
+        // === PROSTA WALIDACJA CHECKBOXA - TYLKO W KONTAKT.HTML ===
         
-        // Dodaj walidację checkbox do istniejącego script.js
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('contact-form');
             const privacyCheckbox = document.getElementById('privacy_consent');
             const privacyLabel = document.querySelector('.privacy-checkbox');
+            const privacyGroup = document.querySelector('.privacy-consent-group');
             
             if (form && privacyCheckbox) {
-                // Dodaj event listener dla checkbox
+                // Czyść błędy gdy checkbox zostanie zaznaczony
                 privacyCheckbox.addEventListener('change', function() {
                     if (this.checked) {
                         privacyLabel.classList.remove('error');
-                        clearCheckboxError();
+                        privacyGroup.classList.remove('error');
+                        const errorSpan = privacyGroup.querySelector('.error-message');
+                        if (errorSpan) {
+                            errorSpan.classList.remove('visible');
+                        }
                     }
                 });
                 
-                // Funkcja czyszczenia błędu checkbox
-                function clearCheckboxError() {
-                    const errorSpan = document.querySelector('.privacy-consent-group .error-message');
-                    const privacyGroup = document.querySelector('.privacy-consent-group');
-                    if (errorSpan) {
-                        errorSpan.classList.remove('visible');
-                        privacyLabel.classList.remove('error');
-                        privacyGroup.classList.remove('error');
-                    }
-                }
-                
-                // Funkcja pokazania błędu checkbox
-                function showCheckboxError(message) {
-                    const errorSpan = document.querySelector('.privacy-consent-group .error-message');
-                    const privacyGroup = document.querySelector('.privacy-consent-group');
-                    if (errorSpan) {
-                        errorSpan.textContent = message;
-                        errorSpan.classList.add('visible');
+                // Dodaj walidację checkboxa do wysyłania formularza
+                form.addEventListener('submit', function(e) {
+                    if (!privacyCheckbox.checked) {
+                        e.preventDefault();
+                        
+                        // Pokaż błąd checkboxa
+                        const errorSpan = privacyGroup.querySelector('.error-message');
+                        if (errorSpan) {
+                            errorSpan.textContent = 'Musisz wyrazić zgodę na przetwarzanie danych osobowych.';
+                            errorSpan.classList.add('visible');
+                        }
                         privacyLabel.classList.add('error');
                         privacyGroup.classList.add('error');
-                    }
-                }
-                
-                // Rozszerz istniejącą walidację o checkbox
-                const originalValidateForm = function() {
-                    let isValid = true;
-                    
-                    // Sprawdź wszystkie wymagane pola (istniejąca logika)
-                    const requiredFields = form.querySelectorAll('input[required]:not([type="checkbox"]), select[required], textarea[required]');
-                    requiredFields.forEach(field => {
-                        if (!field.value.trim()) {
-                            isValid = false;
-                        }
-                    });
-                    
-                    // Sprawdź checkbox RODO
-                    if (!privacyCheckbox.checked) {
-                        showCheckboxError('Musisz wyrazić zgodę na przetwarzanie danych osobowych.');
-                        isValid = false;
-                    } else {
-                        clearCheckboxError();
-                    }
-                    
-                    return isValid;
-                };
-                
-                // Dodaj walidację do submit
-                form.addEventListener('submit', function(e) {
-                    if (!originalValidateForm()) {
-                        e.preventDefault();
+                        
+                        // Scroll do checkboxa
+                        privacyGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
                         return false;
                     }
                 });
