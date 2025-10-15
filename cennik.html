@@ -224,5 +224,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script src="script.js" defer></script>
+    <script>
+function copyAccountNumber() {
+    const accountNumber = document.getElementById('account-number').innerText;
+    navigator.clipboard.writeText(accountNumber.replace(/\s/g, '')).then(() => {
+        alert('Numer konta został skopiowany do schowka!');
+    }).catch(err => {
+        console.error('Błąd kopiowania: ', err);
+        alert('Nie udało się skopiować numeru konta.');
+    });
+}
+</script>
 </body>
 </html>
